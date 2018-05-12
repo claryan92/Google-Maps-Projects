@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8">
 	<style>
 	#map {
-		height: 800px;
-		width: 100%;
+		height: 100%;
+	}
+	html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
 	}
 	</style>
 	<title>Map</title>
 </head>
 <body>
-	<h2>Google Maps Icons</h2>
+	<h2>Google Maps Icon Clustering</h2>
 	<div id="map"></div>
 	<script>
 		function initMap() {
@@ -19,11 +25,29 @@
 				zoom: 10,
 				center: portland
 			});
-			var marker = new google.maps.Marker({
-				position: portland,
-				map: map
+
+			var labels = 'ABCDEFGHIJKLMNOPGRSTUVWXYZ'
+
+			var markers = locations.map(function(location, i) {
+				return new google.maps.Marker({
+					position: location,
+					label: labels[i % labels.length]
+				});
 			});
+
+			var markerCluster = new MarkerClusterer(map, markers,
+				{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 		}
+		var locations = [
+		{lat: 45.5180, lng: -122.5948},
+        {lat: 45.5382, lng: -122.6029},
+        {lat: 45.5188, lng: -122.7080},
+        {lat: 45.4405, lng: -122.6782},
+        {lat: 45.5231, lng: -122.6814},
+        {lat: 45.5590, lng: -122.6509}
+        ]
+	</script>
+	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 	</script>
 	<script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOIPsu7pc_7kk3fb8kWq-SDWM2x9aVx0w&callback=initMap">
